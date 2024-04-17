@@ -1,0 +1,28 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+    pull_request:
+        types: [opened, synchronize]
+jobs:
+  run-get-pr-diff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+ 
+      - name: Install depednencies
+        run: npm install
+
+      - name: Run getPRDiff
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPEN_AI_SECRET }}
+        run: node getPRDiff.js ${{ github.event.number }} ${{ github.actor }} ${{ github.repository }}
+
+
+       
