@@ -6,9 +6,6 @@ async function getPRDiff() {
     auth: process.env.GITHUB_TOKEN,
   });
 
-  console.log('The process argv is: ')
-  console.log(process.argv[0], process.argv[1]);
-
   const prNumber = process.argv[2];
   const owner = process.argv[3];
   const repo = process.argv[4];
