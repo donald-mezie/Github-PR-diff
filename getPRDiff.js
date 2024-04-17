@@ -1,5 +1,4 @@
-
-const Octokit = require('@octokit/rest');
+const { Octokit } = require("@octokit/rest");
 
 async function getPRDiff() {
   const octokit = new Octokit({
