@@ -7,7 +7,8 @@ async function getPRDiff() {
 
   const prNumber = process.argv[2];
   const owner = process.argv[3];
-  const repo = process.argv[4];
+  const repository = process.argv[4];
+  const repo = repository.split('/')[1];
 
   console.log('PR Number: ', prNumber);
   console.log('Owner: ', owner);
