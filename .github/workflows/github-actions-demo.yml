@@ -19,6 +19,9 @@ jobs:
         run: npm install
 
       - name: Run getPRDiff
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node getPRDiff.js ${{ github.event.number }} ${{ github.actor }} ${{ github.repository }}
 
 
