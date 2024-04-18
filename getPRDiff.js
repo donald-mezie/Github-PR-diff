@@ -1,7 +1,6 @@
-import { Octokit } from "@octokit/rest";
-import OpenAI from "openai";
-import * as dotenv from 'dotenv';
-dotenv.config();
+const { Octokit } = require('@octokit/rest');
+const OpenAI = require('openai');
+require('dotenv').config();
 
 async function getPRDiff() {
 
