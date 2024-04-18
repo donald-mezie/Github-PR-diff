@@ -56,7 +56,7 @@ async function writeACustomerFacingDeprecationMessage() {
     Give a hypothetcal deadline for the customer to upgrade.
     
     You will only use the provided code in the diff and nothing else
-    Disregard changes to file structure changes, .env file or github actions, etc. Only focus on the controllers, services and routes.`
+    Disregard changes to file structure changes, .env file or github actions, etc. Only focus on the controllers, services and routes. Make it less technical and more customer-facing something a non-technical customer can understand.`
 
     const userQuery = `
         PR Diff:
