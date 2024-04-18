@@ -63,7 +63,7 @@ async function writeACustomerFacingDeprecationMessage() {
     const userQuery = `
         PR Diff:
         ---
-        ${{diff}}
+        ${diff}
         --- 
         Provide a customer facing deprecation message stating what was removed and what was added.`
   
