@@ -1,7 +1,7 @@
-
-const {Octokit} = require('@octokit/rest');
-const OpenAI = require('openai');
-require('dotenv').config();
+import { Octokit } from "@octokit/rest";
+import OpenAI from "openai";
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 async function getPRDiff() {
 
@@ -25,6 +25,8 @@ async function getPRDiff() {
 
     const diffResponse = await octokit.request('GET ' + diffUrl);
     const diff = diffResponse.data;
+
+    console.log(diff);
     
     return diff;
   } catch (error) {
@@ -41,47 +43,43 @@ async function writeACustomerFacingDeprecationMessage() {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const systemContent = `You are an assistant. 
-    Your task is to go through the github PR DIFF passed in and create a customer-facing deprecation message. 
-    Using the format
-    What's changing?
-    Stating exactly what was removed, updated newly added in terms of routes and controllers.
-    What do I need to upgrade?
-    Stating what the customer should do to use or implement the upgrade. 
-    What happens if I don't upgrade?
-    Stating what happens if the customer doesn't upgrade.
-    Do the customers need to reauthenticate?
-    Stating if changes were made to the authentication process. Which would make the customer to reauthenticate
-    Deadline for the upgrade.
-    Give a hypothetcal deadline for the customer to upgrade.
+    const systemContent = `
+    You are an assistant. 
+    Your task is to go through the GitHub PR DIFF passed in and create a customer-facing deprecation message. Use the format below
     
+    What's changing?
+    State exactly what was removed, updated and added with regards to routes.
+    What do I need to upgrade?
+     State what the customer should do to use or implement the upgrade. 
+    What happens if I don't upgrade?
+    State what happens if the customer doesn't upgrade.
+    Do the customers need to reauthenticate?
+    Stating if changes were made to the authentication process. Which  would make the customer reauthenticate
+    Deadline for the upgrade.
+    Give a deadline for the customer to upgrade.
+        
     You will only use the provided code in the diff and nothing else
-    Disregard changes to file structure changes, .env file or github actions, etc. Only focus on the controllers, services and routes. Make it less technical and more customer-facing something a non-technical customer can understand.`
+    Disregard changes to file structure changes, .env file or GitHub actions, etc. Only focus on the routes. Make it non-technical and more customer-facing.`
 
     const userQuery = `
         PR Diff:
         ---
-        ${diff}
+        ${{diff}}
         --- 
-        Stating exactly what was removed and what was added; and what the customer should do. 
-        We don't really care about repo level changes, .env files, yml files, etc. we only care about operations
-        You will only use the provided code using the provided data and nothing else.
-        Focus more on the controllers and the routes the changes to the endpoint, or newly added params.`
-
+        Provide a customer facing deprecation message stating what was removed and what was added.`
+  
     const response = await openai.chat.completions.create({
       messages: [
         {
-          role: 'assistant',
-          content: systemContent,
-        }, 
-        {
-          role: 'user',
-          content: userQuery,
-        }
+        role: 'system',
+        content: systemContent,
+      }, 
+      {
+        role: 'user',
+        content: userQuery,
+      }
     ],
       model: 'gpt-4-vision-preview',
-      temperature:0.7,
-      top_p:1,
     });
 
     return response.choices[0].message.content;

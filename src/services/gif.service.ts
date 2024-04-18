@@ -22,6 +22,24 @@ class GifService {
             console.log(error);
         }
     }
+
+    async searchGifs(query: string) {
+        // api.giphy.com/v1/gifs/search
+        const API_KEY = process.env.API_KEY as string;
+
+        const config: AxiosRequestConfig = {
+            headers: {
+                'Content-Type': 'application/json'
+            } as RawAxiosRequestHeaders
+        };
+
+        try {
+            const searchResponse: AxiosResponse = await client.get(`/search?api_key=${API_KEY}&q=${query}&limit=5`, config);
+            return searchResponse.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export default GifService
