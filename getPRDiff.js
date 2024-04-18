@@ -1,10 +1,7 @@
-// import { Octokit } from "@octokit/rest";
+
 const {Octokit} = require('@octokit/rest');
 const OpenAI = require('openai');
-// import OpenAI from "openai";
 require('dotenv').config();
-// import * as dotenv from 'dotenv';
-// dotenv.config();
 
 async function getPRDiff() {
 
@@ -46,8 +43,20 @@ async function writeACustomerFacingDeprecationMessage() {
 
     const systemContent = `You are an assistant. 
     Your task is to go through the github PR DIFF passed in and create a customer-facing deprecation message. 
-    Stating exactly what was removed and what was added; and what the customer should do. 
-    You will only use the provided code using the provided data and nothing else`
+    Using the format
+    What's changing?
+    Stating exactly what was removed, updated newly added in terms of routes and controllers.
+    What do I need to upgrade?
+    Stating what the customer should do to use or implement the upgrade. 
+    What happens if I don't upgrade?
+    Stating what happens if the customer doesn't upgrade.
+    Do the customers need to reauthenticate?
+    Stating if changes were made to the authentication process. Which would make the customer to reauthenticate
+    Deadline for the upgrade.
+    Give a hypothetcal deadline for the customer to upgrade.
+    
+    You will only use the provided code in the diff and nothing else
+    Disregard changes to file structure changes, .env file or github actions, etc. Only focus on the controllers, services and routes.`
 
     const userQuery = `
         PR Diff:
