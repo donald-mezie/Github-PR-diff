@@ -3,7 +3,8 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import route from './router/sticker.route';
+import stickerRoute from './router/sticker.route';
+import gifRoute from './router/gif.route';
 
 dotenv.config();
 
@@ -21,7 +22,8 @@ app.use(express.urlencoded({ extended: true}));
 app.use(cors());
 app.use(helmet());
 
-app.use(route);
+app.use(stickerRoute);
+app.use(gifRoute);
 
 app.listen(PORT, () => {
     console.info(`Server is listening on port ${PORT}`);

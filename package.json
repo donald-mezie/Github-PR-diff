@@ -1,7 +1,6 @@
 {
   "name": "noderestapi",
   "version": "1.0.0",
-  "type": "module",
   "description": "A dummy NodeRestAPI for proof of concept.",
   "main": "app.js",
   "scripts": {
